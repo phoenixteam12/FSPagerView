@@ -21,7 +21,7 @@ public protocol FSPagerViewDataSource: NSObjectProtocol {
     
     /// Asks your data source object for the cell that corresponds to the specified item in the pager view.
     @objc(pagerView:cellForItemAtIndex:)
-    func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell
+    func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> UICollectionViewCell
     
 }
 
@@ -46,11 +46,11 @@ public protocol FSPagerViewDelegate: NSObjectProtocol {
     
     /// Tells the delegate that the specified cell is about to be displayed in the pager view.
     @objc(pagerView:willDisplayCell:forItemAtIndex:)
-    optional func pagerView(_ pagerView: FSPagerView, willDisplay cell: FSPagerViewCell, forItemAt index: Int)
+    optional func pagerView(_ pagerView: FSPagerView, willDisplay cell: UICollectionViewCell, forItemAt index: Int)
     
     /// Tells the delegate that the specified cell was removed from the pager view.
     @objc(pagerView:didEndDisplayingCell:forItemAtIndex:)
-    optional func pagerView(_ pagerView: FSPagerView, didEndDisplaying cell: FSPagerViewCell, forItemAt index: Int)
+    optional func pagerView(_ pagerView: FSPagerView, didEndDisplaying cell: UICollectionViewCell, forItemAt index: Int)
     
     /// Tells the delegate when the pager view is about to start scrolling the content.
     @objc(pagerViewWillBeginDragging:)
@@ -379,7 +379,7 @@ open class FSPagerView: UIView,UICollectionViewDataSource,UICollectionViewDelega
             return
         }
         let index = indexPath.item % self.numberOfItems
-        function(self,cell as! FSPagerViewCell,index)
+        function(self,cell as! UICollectionViewCell,index)
     }
     
     public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -387,7 +387,7 @@ open class FSPagerView: UIView,UICollectionViewDataSource,UICollectionViewDelega
             return
         }
         let index = indexPath.item % self.numberOfItems
-        function(self,cell as! FSPagerViewCell,index)
+        function(self,cell as! UICollectionViewCell,index)
     }
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -465,13 +465,13 @@ open class FSPagerView: UIView,UICollectionViewDataSource,UICollectionViewDelega
     ///   - index: The index specifying the location of the cell.
     /// - Returns: A valid FSPagerViewCell object.
     @objc(dequeueReusableCellWithReuseIdentifier:atIndex:)
-    open func dequeueReusableCell(withReuseIdentifier identifier: String, at index: Int) -> FSPagerViewCell {
+    open func dequeueReusableCell(withReuseIdentifier identifier: String, at index: Int) -> UICollectionViewCell {
         let indexPath = IndexPath(item: index, section: self.dequeingSection)
         let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
-        guard cell.isKind(of: FSPagerViewCell.self) else {
+        guard cell.isKind(of: UICollectionViewCell.self) else {
             fatalError("Cell class must be subclass of FSPagerViewCell")
         }
-        return cell as! FSPagerViewCell
+        return cell as! UICollectionViewCell
     }
     
     /// Reloads all of the data for the collection view.

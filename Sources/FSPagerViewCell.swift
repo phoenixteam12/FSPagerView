@@ -40,6 +40,8 @@ open class FSPagerViewCell: UICollectionViewCell {
         }
         let imageView = UIImageView(frame: .zero)
         self.contentView.addSubview(imageView)
+        self.contentView.setNeedsLayout()
+        self.contentView.layoutIfNeeded()
         _imageView = imageView
         return imageView
     }
@@ -116,6 +118,8 @@ open class FSPagerViewCell: UICollectionViewCell {
     override open func layoutSubviews() {
         super.layoutSubviews()
         if let imageView = _imageView {
+            imageView.setNeedsLayout()
+            imageView.layoutIfNeeded()
             imageView.frame = self.contentView.bounds
         }
         if let textLabel = _textLabel {
